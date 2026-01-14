@@ -1,0 +1,38 @@
+.app-layout {
+    &-wrapper {
+        height: 100vh;
+        background-color: var(--p-slate-50);
+        overflow: hidden;
+        display: flex;
+        align-items: stretch;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    &-header {
+        min-height: 40px;
+        border-bottom: 1px solid var(--p-slate-300);
+        background: var(--p-slate-200);
+    }
+
+    &-content {
+        height: 100%;
+        display: grid;
+        grid-template-rows: auto 60px;
+        align-items: stretch;
+    }
+    &-main {
+        padding: 2rem;
+        overflow-y: scroll;
+    }
+
+    &-footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 0;
+        gap: 0.5rem;
+        border-top: 1px solid var(--p-slate-300);
+        background-color: var(--p-slate-200);
+    }
+}

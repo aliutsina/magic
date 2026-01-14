@@ -1,0 +1,105 @@
+<div id="parent_for_ingredients_select">
+    @if (order()) {
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="w-full flex flex-col justify-start gap-4">
+            <div class="order-form-row w-full flex justify-start gap-4">
+                <p-floatlabel class="order-form-input-sm" variant="on">
+                    <p-inputnumber
+                        pInputNumber
+                        type="number"
+                        inputId="order_id"
+                        formControlName="id"
+                        [disabled]="true"
+                        fluid="true"
+                    />
+                    <label for="order_id">Номер зелья</label>
+                </p-floatlabel>
+                <p-floatlabel class="order-form-input-sm" variant="on">
+                    <p-datepicker
+                        inputId="order_create_at"
+                        [maxDate]="maxCreateAt"
+                        formControlName="createAt"
+                        showIcon
+                        iconDisplay="input"
+                        [dateFormat]="dateFormat"
+                        [invalid]="isInvalid('dueDate')"
+                    />
+                    <label for="order_create_at">Дата создания</label>
+                </p-floatlabel>
+
+                <p-floatlabel class="order-form-input-sm" variant="on">
+                    <p-datepicker
+                        inputId="order_due_date"
+                        [minDate]="minDueDate"
+                        formControlName="dueDate"
+                        showIcon
+                        iconDisplay="input"
+                        [dateFormat]="dateFormat"
+                        [invalid]="isInvalid('dueDate')"
+                    />
+                    <label for="order_due_date">Дата доставки</label>
+                </p-floatlabel>
+            </div>
+
+            <app-customer-select
+                formControlName="customerId"
+                [initValue]="order().customerId"
+                [invalid]="isInvalid('customerId')"
+            ></app-customer-select>
+
+            <div>
+                <div class="order-form-row flex items-center flex-start gap-4">
+                    <span class="block">Оплата</span>
+                    @for (method of paymentMethods; track method.value) {
+
+                    <div class="flex items-center gap-2">
+                        <p-radiobutton
+                            formControlName="paymentMethod"
+                            name="paymentMethod"
+                            [inputId]="method.value"
+                            [value]="method.value"
+                            [invalid]="isInvalid('paymentMethod')"
+                        />
+                        <label [for]="method.value"> {{ method.name }} </label>
+                    </div>
+                    }
+                </div>
+            </div>
+            <hr class="order-form-line" />
+
+            <h4 class="order-form-subtitle">Доставка</h4>
+            <div class="order-form-row flex items-center gap-4 pb-4">
+                @for (method of deliveryMethods; track method.value) {
+
+                <div class="flex items-center gap-2">
+                    <p-radiobutton
+                        formControlName="deliveryMethod"
+                        name="deliveryMethod"
+                        [inputId]="method.value"
+                        [value]="method.value"
+                        [invalid]="isInvalid('deliveryMethod')"
+                    />
+                    <label [for]="method.value"> {{ method.name }} </label>
+                </div>
+                }
+            </div>
+
+            <app-address
+                formControlName="address"
+                [formSubmitted]="formSubmitted"
+            ></app-address>
+
+            <hr />
+
+            <app-ingredients-table
+                formControlName="ingredients"
+            ></app-ingredients-table>
+            @if ( isInvalid('ingredients')) {
+            <p class="order-form-error">Минимум 3 ингредиента</p>
+            }
+            <p-button type="submit" label="Сохранить" />
+        </div>
+    </form>
+    }
+</div>
